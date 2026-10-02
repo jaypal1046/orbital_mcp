@@ -1,6 +1,6 @@
-# 🛰️ Orbital MCP Server (`orbital-mcp`)
+# 🛰️ Orbital MCP Server (`@orbital_mcp/orbital-mcp`)
 
-[![npm version](https://img.shields.io/npm/v/orbital-mcp.svg?style=for-the-badge&color=7C3AED)](https://www.npmjs.com/package/orbital-mcp)
+[![npm version](https://img.shields.io/npm/v/@orbital_mcp/orbital-mcp.svg?style=for-the-badge&color=7C3AED)](https://www.npmjs.com/package/@orbital_mcp/orbital-mcp)
 [![Model Context Protocol](https://img.shields.io/badge/Protocol-Model%20Context%20Protocol%20(MCP)-blue?style=for-the-badge)](https://modelcontextprotocol.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
@@ -10,10 +10,10 @@ The official **Model Context Protocol (MCP)** server for controlling, inspecting
 
 ## ⚡ Zero-Install Quick Start (Recommended)
 
-You don't need to clone the full Android codebase or install manual dependencies. Run `orbital-mcp` instantly with `npx`:
+You don't need to clone the full Android codebase or install manual dependencies. Run `@orbital_mcp/orbital-mcp` instantly with `npx`:
 
 ```bash
-npx -y orbital-mcp
+npx -y @orbital_mcp/orbital-mcp
 ```
 
 This launches the local bridge host with automatic IP discovery, QR code pairing, and mDNS network broadcasting:
@@ -40,7 +40,7 @@ This launches the local bridge host with automatic IP discovery, QR code pairing
   "mcpServers": {
     "orbital-phone": {
       "command": "npx",
-      "args": ["-y", "orbital-mcp"]
+      "args": ["-y", "@orbital_mcp/orbital-mcp"]
     }
   }
 }
@@ -52,7 +52,7 @@ This launches the local bridge host with automatic IP discovery, QR code pairing
   "mcpServers": {
     "orbital-phone": {
       "command": "npx",
-      "args": ["-y", "orbital-mcp"]
+      "args": ["-y", "@orbital_mcp/orbital-mcp"]
     }
   }
 }
@@ -62,7 +62,7 @@ This launches the local bridge host with automatic IP discovery, QR code pairing
 In **Cursor Settings** $\rightarrow$ **Features** $\rightarrow$ **MCP Servers** $\rightarrow$ **Add New**:
 - **Name**: `orbital-phone`
 - **Type**: `command`
-- **Command**: `npx -y orbital-mcp`
+- **Command**: `npx -y @orbital_mcp/orbital-mcp`
 
 ---
 
@@ -98,7 +98,7 @@ In **Cursor Settings** $\rightarrow$ **Features** $\rightarrow$ **MCP Servers** 
 
 ## 🧪 Automated App Testing & QA
 
-With `orbital-mcp`, agents can perform end-to-end multi-step verification on physical Android devices:
+With `@orbital_mcp/orbital-mcp`, agents can perform end-to-end multi-step verification on physical Android devices:
 
 ```json
 {
@@ -127,5 +127,5 @@ With `orbital-mcp`, agents can perform end-to-end multi-step verification on phy
 - **Standalone MCP Repository**: [https://github.com/jaypal1046/orbital_mcp](https://github.com/jaypal1046/orbital_mcp) (Direct clone for MCP-only developers)
 - **Full Monorepo (Android App + Engine)**: [https://github.com/jaypal1046/Orbital](https://github.com/jaypal1046/Orbital)
 - **Privacy Policy & Security Terms**: [https://github.com/jaypal1046/orbital_policy](https://github.com/jaypal1046/orbital_policy)
-- **Zero-Install NPX Package**: `npx -y orbital-mcp`
+- **Zero-Install NPX Package**: `npx -y @orbital_mcp/orbital-mcp`
 - **License**: MIT
