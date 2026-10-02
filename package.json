@@ -1,0 +1,45 @@
+{
+  "name": "orbital-mcp",
+  "version": "1.0.0",
+  "description": "Model Context Protocol (MCP) server for remote Android mobile control via Orbital Bridge",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "orbital-mcp": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "README.md",
+    "SKILL.md"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "android",
+    "automation",
+    "orbital",
+    "ai-bridge",
+    "agentic-ui"
+  ],
+  "author": "Orbital Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jaypal1046/orbital_mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jaypal1046/orbital_mcp/issues"
+  },
+  "homepage": "https://github.com/jaypal1046/orbital_mcp#readme",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.6.0",
+    "bonjour-service": "^1.3.0",
+    "qrcode-terminal": "^0.12.0",
+    "selfsigned": "^2.4.1",
+    "ws": "^8.18.0",
+    "zod": "^3.24.2"
+  }
+}
