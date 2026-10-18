@@ -1,6 +1,6 @@
 {
   "name": "@orbital_mcp/orbital-mcp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Model Context Protocol (MCP) server for remote Android mobile control via Orbital Bridge",
   "main": "index.js",
   "type": "module",
