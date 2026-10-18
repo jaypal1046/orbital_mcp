@@ -26,9 +26,28 @@ import { exec } from "child_process";
 
 const LOCAL_DAEMON_PORT = 19876;
 
-function ensurePrivilegedDaemon() {
+function getActiveAdbSerial() {
+  return new Promise((resolve) => {
+    exec("adb devices", (err, stdout) => {
+      if (err || !stdout) return resolve("");
+      const lines = stdout.split("\n");
+      for (const line of lines) {
+        const parts = line.trim().split(/\s+/);
+        if (parts.length >= 2 && parts[1] === "device") {
+          return resolve(parts[0]);
+        }
+      }
+      resolve("");
+    });
+  });
+}
+
+async function ensurePrivilegedDaemon() {
   try {
-    exec(`adb shell "nohup toybox nc -s 127.0.0.1 -p ${LOCAL_DAEMON_PORT} -L /system/bin/sh >/dev/null 2>&1 &"`, (err) => {
+    const serial = await getActiveAdbSerial();
+    const sFlag = serial ? `-s ${serial}` : "";
+    const loopCmd = `nohup sh -c 'while true; do toybox nc -s 127.0.0.1 -p ${LOCAL_DAEMON_PORT} -L /system/bin/sh; sleep 0.2; done' >/dev/null 2>&1 &`;
+    exec(`adb ${sFlag} shell "${loopCmd}"`, (err) => {
       if (!err) {
         console.error("⚡ Privileged shell loopback daemon confirmed on phone (port 19876).");
       }
@@ -37,6 +56,7 @@ function ensurePrivilegedDaemon() {
 }
 
 ensurePrivilegedDaemon();
+setInterval(ensurePrivilegedDaemon, 15000);
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const KEY_FILE = path.join(__dirname, ".orbital_session_key");
@@ -185,7 +205,7 @@ async function handleHttpRequest(req, res) {
             actionId
           }
         };
-        const result = await sendToPhone(fullPayload, actionId, 25000);
+        const result = await sendToPhone(fullPayload, actionId, 60000);
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(result, null, 2));
       } catch (err) {
@@ -334,7 +354,7 @@ try {
   serverHttp.listen(PORT + 1, "0.0.0.0");
 } catch (e) {}
 
-function proxyToMasterBridge(reqPath, body = null, timeoutMs = 8000) {
+function proxyToMasterBridge(reqPath, body = null, timeoutMs = 30000) {
   return new Promise((resolve, reject) => {
     const isPost = !!body;
     const postData = isPost ? (typeof body === "string" ? body : JSON.stringify(body)) : "";
@@ -372,7 +392,7 @@ function proxyToMasterBridge(reqPath, body = null, timeoutMs = 8000) {
 }
 
 // Helper to send command to phone with HMAC-SHA256 signature and timeout
-function sendToPhone(message, reqKey, timeoutMs = 8000) {
+function sendToPhone(message, reqKey, timeoutMs = 30000) {
   if (!activePhoneSocket || activePhoneSocket.readyState !== 1) {
     if (message.type === "INSPECT_SCREEN") {
       return proxyToMasterBridge("/inspect", null, timeoutMs);
@@ -1160,6 +1180,7 @@ server.tool(
       const actionId = "auto-" + Date.now();
       const payload = {
         type: "EXECUTE_ACTION",
+        
         action: {
           actionId,
           actionType: "AUTONOMOUS_TASK",
@@ -1168,7 +1189,7 @@ server.tool(
           sessionTitle: scriptName || `task_${Date.now()}.sh`
         }
       };
-      const result = await sendToPhone(payload, actionId, 30000);
+      const result = await sendToPhone(payload, actionId, 60000);
       let parsed = null;
       try {
         if (result.aiResponse) parsed = JSON.parse(result.aiResponse);
